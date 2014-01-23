@@ -45,3 +45,7 @@ gem 'bcrypt-ruby', '~> 3.1.2'
 # gem 'debugger', group: [:development, :test]
 
 gem 'faker'
+
+group :production do
+  gem 'rails_12factor'
+end
