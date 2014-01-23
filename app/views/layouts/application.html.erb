@@ -15,10 +15,17 @@
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="navbar-inner">
       <div class="container">
-        <%= link_to "Wikiful", root_path, :class => "navbar-brand" %>
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <%= link_to "Wikiful", root_path, :class => "navbar-brand" %>
+        </div>
         <div class="session-controls pull-right">
           <% if current_user %>
-            <span class="navbar-text">Logged in as <%= current_user.email %>.</span>
+            <span class="navbar-text hidden-xs">Logged in as <%= current_user.email %>.</span>
             <%= link_to "Log Out", logout_path, :class => 'btn btn-primary btn-xs navbar-btn' %>
           <% else %>
             <div class="btn-group btn-group-xs navbar-btn">
@@ -27,39 +34,33 @@
             </div>
           <% end %>
         </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav pull-left">
+            <li><%= link_to "Articles", articles_path %></li>
+            <li class="dropdown" id="categories-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categories<b class="caret"></b></a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dlabel">
+                <% @categories.each do |category| %>
+                  <li><%= link_to category.name, category %></li>
+                <% end %>
+              </ul>
+            </li>
+            <li><%= link_to "Write a Wiki", new_article_path %></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
   <div class="container">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4 col-md-offset-2">
         <% flash.each do |name, msg| %>
           <%= content_tag :div, msg, id: "flash_#{name}" %>
         <% end %>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-9"><%= yield %></div>
-      <div class="col-md-3 sidebar">
-        <div class="my-wiki-site">
-          <h4>My Wikiful</h4>
-          <ul>
-            <li><%= link_to "Write a Wiki", new_article_path %></li>
-          </ul>
-        </div>
-        <div class="categories-sidebar">
-          <h4>Categories</h4>
-          <ul>
-            <% @categories.each do |category| %>
-              <li><%= link_to category.name, category %></li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="about">
-          <h4>About Wikiful</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor, hic, voluptates, officiis dolorum beatae sequi dolores id fugiat provident eaque quia neque odit magni praesentium excepturi quae vero deserunt laudantium.</p>
-        </div>
-      </div>
+      <div class="col-md-8 col-md-offset-2"><%= yield %></div>
     </div>
   </div>
 </body>
